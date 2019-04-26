@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.2.3" orientation="orthogonal" renderorder="left-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="barriers.tsx"/>
+ <tileset firstgid="21" source="塔防地图.tsx"/>
+ <layer id="1" name="barrier" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBjagJFITAt7WfHIs9DQXhiNy5+0tpcUuVF7h6e9xOY7QvmPVHs58ZiFDDiobC8p/qSmvcSAUXtHjr3kpD1s+om1l50IdWx47GVG4jORYC8lZQs96n9iAQDd4gCz
+  </data>
+ </layer>
+ <layer id="2" name="bg" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJwTZWBgEB3CWJxITAt7xQhgWtqLy5/0sJcUuVF7h6e9xOY7QvmPVHsJ5Tli8x+t/EtteymNu1F7h5e95KQ9bPpJsZfcvIZNP7H2UlK20KP+JxYDAJYsMog=
+  </data>
+ </layer>
+</map>

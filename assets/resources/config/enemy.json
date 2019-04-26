@@ -1,0 +1,29 @@
+{
+    "Monster": [
+        {
+            "HP": 100,
+            "URL": "BuleMonster",
+            "speed": 200
+        },
+        {
+            "HP": 200,
+            "URL": "GreenMonster",
+            "speed": 175
+        },
+        {
+            "HP": 800,
+            "URL": "PurpleMonster",
+            "speed": 150
+        },
+        {
+            "HP": 1600,
+            "URL": "RedMonster",
+            "speed": 125
+        },
+        {
+            "HP": 3200,
+            "URL": "YellowMonster",
+            "speed": 100
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "Tower": [
+        {
+            "towerName": "star",
+            "maxRadius": [200, 200, 250, 300],
+            "minRadius": [0, 0, 0, 0],
+            "attackInterval": [1, 1, 1, 1],
+            "damage": [100, 150, 200, 250],
+            "speed": [1200, 1200, 1200, 1200],
+            "level": 0,
+            "URLs": {
+                "sprite": ["star_0", "star_1", "star_2", "star_3"],
+                "bullet": ["bullet", "bullet", "bullet", "bullet"]
+            }
+        },
+        {
+            "towerName": "ddd",
+            "maxRadius": [200, 200, 250, 300],
+            "minRadius": [50, 50, 50, 50],
+            "attackInterval": [0.8, 0.6, 0.4, 0.2],
+            "damage": [30, 35, 40, 45],
+            "speed": [1200, 1200, 1200, 1200],
+            "level": 0,
+            "URLs": {
+                "sprite": ["ddd_0", "ddd_1", "ddd_2", "ddd_3"],
+                "bullet": ["ddd", "ddd", "ddd", "ddd"]
+            }
+        }
+    ]
+}
