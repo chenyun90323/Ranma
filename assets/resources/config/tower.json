@@ -22,7 +22,7 @@
             "speed": [1200, 1200, 1200, 1200],
             "level": 0,
             "URLs": {
-                "sprite": ["ddd_0", "ddd_1", "ddd_2", "ddd_3"],
+                "sprite": ["LV1_PowerTower", "ddd_1", "ddd_2", "ddd_3"],
                 "bullet": ["ddd", "ddd", "ddd", "ddd"]
             }
         }
