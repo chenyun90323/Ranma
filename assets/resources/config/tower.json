@@ -23,7 +23,7 @@
             "level": 0,
             "URLs": {
                 "sprite": ["LV1_PowerTower", "ddd_1", "ddd_2", "ddd_3"],
-                "bullet": ["ddd", "ddd", "ddd", "ddd"]
+                "bullet": ["particle_texture.plist", "particle_texture", "particle_texture", "particle_texture"]
             }
         }
     ]
