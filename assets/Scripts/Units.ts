@@ -42,7 +42,7 @@ export default class Units {
 
     //已知向量求角度()
     static vectorsToDegress (dir: cc.Vec2): number {
-        let comVec = cc.v2(0, -1);                      // 水平向左的对比向量
+        let comVec = cc.v2(0, 1);                       // 水平向右的对比向量
         let radian = comVec.signAngle(dir);             // 求方向向量与对比向量间的弧度
         let degree = cc.misc.radiansToDegrees(radian);  // 将弧度转换为角度
         return degree;

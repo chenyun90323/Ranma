@@ -50,6 +50,9 @@ export default class Menu extends cc.Component {
             case '1':
                 self.towerInstance.createTower(self.node.getPosition(), 1);
                 break;
+            case '2':
+                self.towerInstance.createTower(self.node.getPosition(), 2);
+                break;
         }
         self.closeMenu();
     }

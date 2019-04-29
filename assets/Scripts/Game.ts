@@ -97,8 +97,10 @@ export default class Game extends cc.Component {
         jsonAsset.json['Tower'].forEach(towerAttributeJson => {
             let item: TowerAttribute = new TowerAttribute();
             item.towerName = towerAttributeJson['towerName'];
+            item.towerPattern = towerAttributeJson['towerPattern'];
             item.level = towerAttributeJson['level'];
-            item.urlSprites = towerAttributeJson['URLs']['sprite'];
+            item.urlUpperParts = towerAttributeJson['URLs']['upper part'];
+            item.urlPedestals = towerAttributeJson['URLs']['pedestal'];
             item.urlBullets = towerAttributeJson['URLs']['bullet'];
             item.attackIntervals = towerAttributeJson['attackInterval'];
             item.damages = towerAttributeJson['damage'];
@@ -125,7 +127,7 @@ export default class Game extends cc.Component {
                     characteristic.push({'url': enemy.url, 'speed': enemy.speed, 'stamina': enemy.stamina, 'HP': enemy.HP, 'way': enemy.getWay()});
                 });
                 cc.log(self.enemyInstance.enemyPool, self.enemyInstance.enemys.length, characteristic);
-                cc.log(self.towerInstance.towerPool, self.towerInstance.towers.length);
+                cc.log(self.towerInstance.towers.length);
                 cc.log(self.bulletInstance);
                 break;
             case '4':

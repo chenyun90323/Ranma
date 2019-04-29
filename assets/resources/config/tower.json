@@ -2,6 +2,7 @@
     "Tower": [
         {
             "towerName": "star",
+            "towerPattern": 0,
             "maxRadius": [200, 200, 250, 300],
             "minRadius": [0, 0, 0, 0],
             "attackInterval": [1, 1, 1, 1],
@@ -9,12 +10,14 @@
             "speed": [1200, 1200, 1200, 1200],
             "level": 0,
             "URLs": {
-                "sprite": ["star_0", "star_1", "star_2", "star_3"],
+                "upper part": ["star_0", "star_1", "star_2", "star_3"],
+                "pedestal": ["基座", "基座", "基座", "基座"],
                 "bullet": ["bullet", "bullet", "bullet", "bullet"]
             }
         },
         {
             "towerName": "ddd",
+            "towerPattern": 0,
             "maxRadius": [200, 200, 250, 300],
             "minRadius": [50, 50, 50, 50],
             "attackInterval": [0.8, 0.6, 0.4, 0.2],
@@ -22,8 +25,24 @@
             "speed": [1200, 1200, 1200, 1200],
             "level": 0,
             "URLs": {
-                "sprite": ["LV1_PowerTower", "ddd_1", "ddd_2", "ddd_3"],
-                "bullet": ["particle_texture.plist", "particle_texture", "particle_texture", "particle_texture"]
+                "upper part": ["LV1_PowerTower", "ddd_1", "ddd_2", "ddd_3"],
+                "pedestal": ["基座", "基座", "基座", "基座"],
+                "bullet": ["ddd", "ddd", "ddd", "ddd"]
+            }
+        },
+        {
+            "towerName": "bomb",
+            "towerPattern": 1,
+            "maxRadius": [200, 200, 250, 300],
+            "minRadius": [50, 50, 50, 50],
+            "attackInterval": [2, 2, 2, 2],
+            "damage": [100, 150, 200, 250],
+            "speed": [300, 300, 300, 300],
+            "level": 0,
+            "URLs": {
+                "upper part": ["LV1_PowerTower", "LV1_PowerTower", "LV1_PowerTower", "LV1_PowerTower"],
+                "pedestal": ["基座", "基座", "基座", "基座"],
+                "bullet": ["particle_texture", "particle_texture", "particle_texture", "particle_texture"]
             }
         }
     ]

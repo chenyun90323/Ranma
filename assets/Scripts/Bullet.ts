@@ -55,7 +55,7 @@ export default class Bullet extends cc.Component {
     update (dt: number) {
         let self = this;
 
-        let AB: cc.Vec2 = self.target.mul(dt * self.speed).add(self.node.getPosition());
+        let AB: cc.Vec2 = self.node.getPosition(cc.v2()).add(self.target.mul(dt * self.speed));
         //cc.log(AB);
         self.node.setPosition(AB);
     }
