@@ -25,9 +25,6 @@ export default class Bullet extends cc.Component {
     origin: cc.Vec2 = null;
 
     hit: boolean = false;
-    //unuse () {}
-
-    //reuse () {}
 
     init(towerName: string, urlBullet: string, urlParticle: string, origin: cc.Vec2, angle: number, target: cc.Vec2, parent: BulletInstance, damage: number = 200, speed: number = 1000) {
         let self = this;
@@ -45,15 +42,18 @@ export default class Bullet extends cc.Component {
 
         self.node.setPosition(self.origin);
         self.node.angle = self.angle;
-        self.hit = false;
-        let _url: string = 'image/tower/' + self.towerName + '/bullets/' + self.urlBullet;
-        cc.loader.loadRes(_url, cc.SpriteFrame, function (error, spriteFrame) {
+        
+        let _urlBullet: string = 'image/tower/' + self.towerName + '/bullets/' + self.urlBullet;
+        cc.loader.loadRes(_urlBullet, cc.SpriteFrame, function (error, spriteFrame) {
             if (error) {
                 cc.log(error.message || error);
                 return;
             }
-            self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+            self.node.getChildByName('sprite').getComponent(cc.Sprite).spriteFrame = spriteFrame;
         });
+        
+        let _urlParticle: string = 'image/tower/' + self.towerName + '/bullets/' + self.urlParticle;
+        cc.loader.loadRes(_urlParticle, cc.ParticleAsset);
 
         //cc.log(self);
     }
@@ -67,11 +67,6 @@ export default class Bullet extends cc.Component {
             self.node.setPosition(AB);
         }
     }
-    
-    /*start () {
-        cc.log('Bullet', "start");
-        let self = this;
-    }*/
 
     onLoad () {
         cc.log('Bullet', "onLoad");
@@ -79,6 +74,28 @@ export default class Bullet extends cc.Component {
         manager.enabled = true;
         manager.enabledDebugDraw = true;
         //manager.enabledDrawBoundingBox = true;
+    }
+
+    flying () {
+        let self = this;
+        self.node.getChildByName('sprite').active = true;
+        self.node.getChildByName('particle').active = false;
+        self.node.getComponent(cc.BoxCollider).enabled = true;
+
+        self.node.getChildByName('particle').getComponent(cc.ParticleSystem).stopSystem();
+
+        self.hit = false;
+    }
+
+    hitting () {
+        let self = this;
+        self.node.getChildByName('sprite').active = false;
+        self.node.getChildByName('particle').active = true;
+        self.node.getComponent(cc.BoxCollider).enabled = false;
+        
+        self.node.getChildByName('particle').getComponent(cc.ParticleSystem).resetSystem();
+
+        self.hit = true;
     }
 
     /**
@@ -95,23 +112,24 @@ export default class Bullet extends cc.Component {
             }
             case 1: { // 撞怪
                 let particleEffect: cc.ActionInstant = cc.callFunc(function(_target, bullet: Bullet) {
-                    let _url: string = 'image/tower/' + bullet.towerName + '/bullets/' + bullet.urlParticle;
-                    cc.loader.loadRes(_url, cc.ParticleAsset, function (error, particle) {
-                        if (error) {
-                            cc.log(error.message || error);
-                            return;
-                        }
-                        bullet.addComponent(cc.ParticleSystem);
-                        bullet.getComponent(cc.ParticleSystem);
-                    });
+                    bullet.hitting();
                 }, this, self);//粒子效果
-                let finished: cc.ActionInstant = cc.callFunc(function(_target, node) {
-                    this.parent.onBulletKilled(node);
-                }, this, selfChildren.node);//动作完成后会将节点放进对象池
 
-                var myAction = cc.sequence(particleEffect, cc.delayTime(1), finished);
+                class Args {
+                    constructor (bullet: Bullet, node: cc.Node) {
+                        this.bullet = bullet;
+                        this.node = node;
+                    }
+                    bullet: Bullet;
+                    node: cc.Node;
+                }
+                let finished: cc.ActionInstant = cc.callFunc(function(_target, args: Args) {
+                    args.bullet.flying();
+                    args.bullet.parent.onBulletKilled(args.node);
+                }, this, new Args(self, selfChildren.node));//动作完成后会将节点放进对象池
+
+                var myAction = cc.sequence(particleEffect, cc.delayTime(0.2), finished);
                 self.node.runAction(myAction);
-                self.hit = true;
                 break;
             }
             case 2: { // 撞墙
