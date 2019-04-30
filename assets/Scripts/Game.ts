@@ -102,6 +102,7 @@ export default class Game extends cc.Component {
             item.urlUpperParts = towerAttributeJson['URLs']['upper part'];
             item.urlPedestals = towerAttributeJson['URLs']['pedestal'];
             item.urlBullets = towerAttributeJson['URLs']['bullet'];
+            item.urlParticles = towerAttributeJson['URLs']['particle'];
             item.attackIntervals = towerAttributeJson['attackInterval'];
             item.damages = towerAttributeJson['damage'];
             item.maxRadiuses = towerAttributeJson['maxRadius'];

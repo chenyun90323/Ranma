@@ -24,7 +24,7 @@ export default class BulletInstance extends cc.Component {
         }
     }
 
-    createBullet (parentNode: cc.Node, towerName: string, url: string, origin: cc.Vec2, angle: number, target: cc.Vec2, damage: number, speed: number) {
+    createBullet (parentNode: cc.Node, towerName: string, urlBullet: string, urlParticle:string, origin: cc.Vec2, angle: number, target: cc.Vec2, damage: number, speed: number) {
         let self = this;
 
         let bullet: cc.Node = null;
@@ -33,7 +33,7 @@ export default class BulletInstance extends cc.Component {
         } else { // 如果没有空闲对象，也就是对象池中备用对象不够时，我们就用 cc.instantiate 重新创建
             bullet = cc.instantiate(self.bulletPrefab);
         }
-        bullet.getComponent(Bullet).init(towerName, url, origin, angle, target, self, damage, speed); //接下来就可以调用 enemy 身上的脚本进行初始化
+        bullet.getComponent(Bullet).init(towerName, urlBullet, urlParticle, origin, angle, target, self, damage, speed); //接下来就可以调用 enemy 身上的脚本进行初始化
         bullet.parent = parentNode; // 将生成的敌人加入节点树
         //cc.log('bulletPool:', self.bulletPool.size(), 'bullet:', bullet.getComponent(Bullet'));
     }

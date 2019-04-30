@@ -38,6 +38,6 @@ export default class TowerBullet extends TowerBase {
     attack (origin: cc.Vec2, angle: number, target: cc.Vec2) {
         let self = this;
         
-        self.bulletInstance.createBullet(self.node.parent, self.towerName, self.urlBullets[self.level], origin, angle, target, self.damages[self.level], self.speeds[self.level]);
+        self.bulletInstance.createBullet(self.node.parent, self.towerName, self.urlBullets[self.level], self.urlParticles[self.level], origin, angle, target, self.damages[self.level], self.speeds[self.level]);
     }
 }

@@ -15,6 +15,7 @@ export class TowerAttribute {
     urlUpperParts: string[];
     urlPedestals: string[];
     urlBullets: string[];
+    urlParticles: string[];
 };
 
 export enum TowerPattern {

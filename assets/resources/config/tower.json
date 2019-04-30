@@ -12,7 +12,8 @@
             "URLs": {
                 "upper part": ["star_0", "star_1", "star_2", "star_3"],
                 "pedestal": ["基座", "基座", "基座", "基座"],
-                "bullet": ["bullet", "bullet", "bullet", "bullet"]
+                "bullet": ["bullet", "bullet", "bullet", "bullet"],
+                "particle": ["particle_texture", "particle_texture", "particle_texture", "particle_texture"]
             }
         },
         {
@@ -27,7 +28,8 @@
             "URLs": {
                 "upper part": ["LV1_PowerTower", "ddd_1", "ddd_2", "ddd_3"],
                 "pedestal": ["基座", "基座", "基座", "基座"],
-                "bullet": ["ddd", "ddd", "ddd", "ddd"]
+                "bullet": ["ddd", "ddd", "ddd", "ddd"],
+                "particle": ["particle_texture", "particle_texture", "particle_texture", "particle_texture"]
             }
         },
         {
@@ -42,7 +44,8 @@
             "URLs": {
                 "upper part": ["LV1_PowerTower", "LV1_PowerTower", "LV1_PowerTower", "LV1_PowerTower"],
                 "pedestal": ["基座", "基座", "基座", "基座"],
-                "bullet": ["particle_texture", "particle_texture", "particle_texture", "particle_texture"]
+                "bullet": ["particle_texture", "particle_texture", "particle_texture", "particle_texture"],
+                "particle": ["particle_texture", "particle_texture", "particle_texture", "particle_texture"]
             }
         }
     ]

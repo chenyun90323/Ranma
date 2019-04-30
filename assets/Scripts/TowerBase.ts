@@ -32,6 +32,9 @@ export default abstract class TowerBase extends cc.Component {
     @property({tooltip: "子弹贴图"})
     urlBullets: string[] = [];
 
+    @property({tooltip: "粒子贴图"})
+    urlParticles: string[] =[];
+
     @property({tooltip: "攻击伤血"})
     damages: number[] = [];
 
@@ -66,6 +69,7 @@ export default abstract class TowerBase extends cc.Component {
         self.urlUpperParts = item.urlUpperParts;
         self.urlPedestals = item.urlPedestals;
         self.urlBullets = item.urlBullets;
+        self.urlParticles = item.urlParticles;
         
         self.node.getChildByName('upper part').angle = 0;
         self.textureMapping(self.towerName, self.urlUpperParts[self.level], self.urlPedestals[self.level]);
