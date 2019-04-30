@@ -132,7 +132,7 @@ export default class Game extends cc.Component {
                 cc.log(self.bulletInstance);
                 break;
             case '4':
-                self.enemyInstance.createEnemy(self.node);
+                self.enemyInstance.createEnemy(EnemyInstance._instance.node);
                 //cc.log(self.enemyPool);
                 break;
         }

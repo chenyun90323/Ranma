@@ -41,9 +41,9 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.6251708984375,
-      "y": 0.6251708984375,
-      "z": 0.6251708984375
+      "x": 0.5293605276774226,
+      "y": 0.5293605276774226,
+      "z": 0.5293605276774226
     },
     "_quat": {
       "__type__": "cc.Quat",
@@ -380,7 +380,7 @@
     "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": "d3LJPl+FtOJbxIlgwVAZ8g"
+    "_id": "1dqZB85kZPKrjbHZvgX0mh"
   },
   {
     "__type__": "cc.TiledLayer",
@@ -392,7 +392,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_id": "0eCIEyZZRKyJMbB/zWkJEX"
+    "_id": "ea0lQMJlxLVZs58S6bbunc"
   },
   {
     "__type__": "cc.Node",
@@ -452,7 +452,7 @@
     "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": "eal5tdh4lLWon2HVJo7eJk"
+    "_id": "b3lHrS9PBIm62G06oq7RnE"
   },
   {
     "__type__": "cc.TiledLayer",
@@ -464,7 +464,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_id": "0eY21MpwdOqYRCPT2bLCf5"
+    "_id": "6aDmSP2F5L066sxdnBMYCi"
   },
   {
     "__type__": "cc.TiledMap",
@@ -494,7 +494,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bulletPool",
+    "_name": "enemyPool",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -552,24 +552,24 @@
     "groupIndex": 0,
     "_rotationX": 0,
     "_rotationY": 0,
-    "_id": "59j38hZNVFv6Jw+s67i8l7"
+    "_id": "b0fnPpCJtNkYBOnUYjD+f6"
   },
   {
-    "__type__": "ade09vIm2dPEbH34wYuNyeP",
+    "__type__": "e942eYV/H9AHrtyP/V0f7NT",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 12
     },
     "_enabled": true,
-    "bulletPrefab": {
-      "__uuid__": "ee5bdab2-ae04-4b14-ae07-a192076eeec4"
+    "enemyPrefab": {
+      "__uuid__": "c3e92f78-83dd-472c-ba44-8b68b4acd482"
     },
-    "_id": "0cgd/XrMFIXY3dlH1x+sBl"
+    "_id": "20dBfd+iFFl59WX7Jpe+bh"
   },
   {
     "__type__": "cc.Node",
-    "_name": "enemyPool",
+    "_name": "bulletPool",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -627,20 +627,20 @@
     "groupIndex": 0,
     "_rotationX": 0,
     "_rotationY": 0,
-    "_id": "b0fnPpCJtNkYBOnUYjD+f6"
+    "_id": "59j38hZNVFv6Jw+s67i8l7"
   },
   {
-    "__type__": "e942eYV/H9AHrtyP/V0f7NT",
+    "__type__": "ade09vIm2dPEbH34wYuNyeP",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 14
     },
     "_enabled": true,
-    "enemyPrefab": {
-      "__uuid__": "c3e92f78-83dd-472c-ba44-8b68b4acd482"
+    "bulletPrefab": {
+      "__uuid__": "ee5bdab2-ae04-4b14-ae07-a192076eeec4"
     },
-    "_id": "20dBfd+iFFl59WX7Jpe+bh"
+    "_id": "0cgd/XrMFIXY3dlH1x+sBl"
   },
   {
     "__type__": "cc.Node",

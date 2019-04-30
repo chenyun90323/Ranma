@@ -128,7 +128,7 @@ export default class Bullet extends cc.Component {
                     args.bullet.parent.onBulletKilled(args.node);
                 }, this, new Args(self, selfChildren.node));//动作完成后会将节点放进对象池
 
-                var myAction = cc.sequence(particleEffect, cc.delayTime(0.2), finished);
+                let myAction = cc.sequence(particleEffect, cc.delayTime(0.2), finished);
                 self.node.runAction(myAction);
                 break;
             }

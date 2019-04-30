@@ -35,7 +35,6 @@ export default class BulletInstance extends cc.Component {
         }
         bullet.getComponent(Bullet).init(towerName, urlBullet, urlParticle, origin, angle, target, self, damage, speed); //接下来就可以调用 enemy 身上的脚本进行初始化
         bullet.parent = parentNode; // 将生成的敌人加入节点树
-        //cc.log('bulletPool:', self.bulletPool.size(), 'bullet:', bullet.getComponent(Bullet'));
     }
     
     onBulletKilled (bullet: cc.Node) {

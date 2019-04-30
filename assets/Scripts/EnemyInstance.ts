@@ -59,7 +59,6 @@ export default class EnemyInstance extends cc.Component {
 
         let item: EnemyAttribute = self.items[Math.floor(Math.random() * self.items.length)];
         enemy.getComponent(Enemy).init(self, item.HP, item.URL, item.speed); //接下来就可以调用 enemy 身上的脚本进行初始化
-        //cc.log(item);
         enemy.parent = parentNode; // 将生成的敌人加入节点树
         self.enemys.push(enemy);
     }
