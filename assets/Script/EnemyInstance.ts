@@ -9,7 +9,7 @@ export class EnemyAttribute {
 
 @ccclass
 export default class EnemyInstance extends cc.Component {
-    
+
     @property({type: cc.Prefab, tooltip: "敌人Prefab"})
     enemyPrefab: cc.Prefab = null;
 
@@ -17,7 +17,7 @@ export default class EnemyInstance extends cc.Component {
 
     enemyPool: cc.NodePool = new cc.NodePool("Enemy");
     enemys: cc.Node[] = new Array<cc.Node>();
-    
+
     static _instance: EnemyInstance;
 
     lateUpdate () {
@@ -33,7 +33,7 @@ export default class EnemyInstance extends cc.Component {
     onLoad () {
         cc.log('EnemyInstance', "onLoad");
         let self = this;
-        
+
         EnemyInstance._instance = this;
 
         let initCount: number = 15;

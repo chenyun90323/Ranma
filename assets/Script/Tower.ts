@@ -1,16 +1,20 @@
-import BulletInstance from './BulletInstance';
+import AmmoInstance, { AmmoAttribute } from './AmmoInstance';
 import TowerInstance from './TowerInstance';
 import EnemyInstance from './EnemyInstance';
 import { TowerAttribute } from './TowerInstance';
+import Units, { Ammo } from './Units';
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default abstract class TowerBase extends cc.Component {
-    
+export default class Tower extends cc.Component {
+
+    @property({type: cc.Enum(Ammo), tooltip: "发射方式"})
+    pattern: Ammo = Ammo.Bullet;
+
     @property({tooltip: "最大半径"})
     maxRadiuses: number[] = [];
-    
+
     @property({tooltip: "最小半径"})
     minRadiuses: number[] = [];
 
@@ -25,7 +29,7 @@ export default abstract class TowerBase extends cc.Component {
 
     @property({tooltip: "塔上部贴图"})
     urlUpperParts: string[] = []; 
-    
+
     @property({tooltip: "塔基座贴图"})
     urlPedestals: string[] = [];
 
@@ -40,10 +44,10 @@ export default abstract class TowerBase extends cc.Component {
 
     @property({tooltip: "速度"})
     speeds: number[] = [];
-    
+
     parent: TowerInstance = null;
 
-    bulletInstance: BulletInstance;
+    ammoInstance: AmmoInstance;
     enemys: cc.Node[] = null;
     private _timer: number = 0;
     setTimer (timer: number) {
@@ -54,10 +58,11 @@ export default abstract class TowerBase extends cc.Component {
     }
 
     init(parent: TowerInstance, item: TowerAttribute) {
-        cc.log('TowerBase', "init");
+        cc.log('Tower', "init");
         let self = this;
 
         self.towerName = item.towerName;
+        self.pattern = item.pattern;
         self.level = item.level;
         self.maxRadiuses = item.maxRadiuses;
         self.minRadiuses = item.minRadiuses;
@@ -65,19 +70,19 @@ export default abstract class TowerBase extends cc.Component {
         self.damages = item.damages;
         self.speeds = item.speeds;
         self.parent = parent;
-    
+
         self.urlUpperParts = item.urlUpperParts;
         self.urlPedestals = item.urlPedestals;
         self.urlBullets = item.urlBullets;
         self.urlParticles = item.urlParticles;
-        
+
         self.node.getChildByName('upper part').angle = 0;
         self.textureMapping(self.towerName, self.urlUpperParts[self.level], self.urlPedestals[self.level]);
     }
 
     update (dt: number) {
         let self = this;
-        self._timer -= dt;        
+        self._timer -= dt;
         self.aim(self.enemys, self.node.getPosition(cc.v2()), self._timer);
     }
 
@@ -89,13 +94,13 @@ export default abstract class TowerBase extends cc.Component {
     }*/
 
     onLoad () {
-        cc.log('TowerBase', "onLoad");
+        cc.log('Tower', "onLoad");
         let self = this;
 
         /*let manager = cc.director.getCollisionManager();
         manager.enabled = true;
         manager.enabledDebugDraw = true;*/
-        self.bulletInstance = BulletInstance._instance;
+        self.ammoInstance = AmmoInstance._instance;
         self.enemys = EnemyInstance._instance.enemys;
         self.node.on(cc.Node.EventType.TOUCH_START, self.touchStart, self);
         //self.node.on(cc.Node.EventType.TOUCH_MOVE, self.touchMove, self);
@@ -104,7 +109,7 @@ export default abstract class TowerBase extends cc.Component {
     }
 
     onDestroy () {
-        cc.log('TowerBase', "onDestroy");
+        cc.log('Tower', "onDestroy");
         let self = this;
         self.node.off(cc.Node.EventType.TOUCH_START, self.touchStart, self);
         //self.node.off(cc.Node.EventType.TOUCH_MOVE, self.touchMove, self);
@@ -114,7 +119,7 @@ export default abstract class TowerBase extends cc.Component {
 
     touchStart (event: cc.Event.EventTouch) {
         let self = this;
-        cc.log('TowerBase', 'touchStart', self);
+        cc.log('Tower', 'touchStart', self);
         if (self.urlUpperParts.length - 1 > self.level) {
             self.level++;
             self.textureMapping(self.towerName, self.urlUpperParts[self.level], self.urlPedestals[self.level]);
@@ -129,14 +134,14 @@ export default abstract class TowerBase extends cc.Component {
 
     touchEnd (event: cc.Event.EventTouch) {
         let self = this;
-        cc.log('TowerBase', 'touchEnd', self);
+        cc.log('Tower', 'touchEnd', self);
         let graphics: cc.Graphics = self.node.getChildByName('range').getComponent(cc.Graphics);
         graphics.clear();
     }
 
     touchCancel (event: cc.Event.EventTouch) {
         let self = this;
-        cc.log('TowerBase', 'touchCancel', self);
+        cc.log('Tower', 'touchCancel', self);
         let graphics: cc.Graphics = self.node.getChildByName('range').getComponent(cc.Graphics);
         graphics.clear();
     }
@@ -166,6 +171,32 @@ export default abstract class TowerBase extends cc.Component {
         //cc.log('touchMove', self);
     }*/
 
-    abstract aim (enemys: cc.Node[], position: cc.Vec2, timer: number);
-    abstract attack (origin: cc.Vec2, angle: number, target: cc.Vec2);
+    aim (enemys: cc.Node[], position: cc.Vec2, timer: number) {
+        let self = this;
+
+        enemys.some(emeny => {
+            let B: cc.Vec2 = emeny.getPosition(cc.v2());
+            let AB: cc.Vec2 = B.sub(position);
+            let rAB: number = AB.mag();
+            if (rAB <= self.maxRadiuses[self.level] && rAB >= self.minRadiuses[self.level]) {
+                self.node.getChildByName('upper part').angle = Units.vectorsToDegress(AB);
+                if (timer <= 0) {
+                    let origin: cc.Vec2 = self.node.getPosition(cc.v2());
+                    self.setTimer(self.attackIntervals[self.level]);
+                    self.attack(origin, emeny);
+                }
+                return true;
+            } else {
+                return false;
+            }   
+        });
+    }
+
+    attack (origin: cc.Vec2, target: cc.Node) {
+        let self = this;
+        let ammoAttribute: AmmoAttribute = new AmmoAttribute(self.pattern, self.speeds[self.level],
+                                                self.damages[self.level], self.towerName,
+                                                self.urlBullets[self.level], self.urlParticles[self.level]);
+        self.ammoInstance.createAmmo(self.node.parent, ammoAttribute, origin, target);
+    }
 }

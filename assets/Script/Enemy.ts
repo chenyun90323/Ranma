@@ -1,6 +1,6 @@
 import Units, { PointAndLine } from "./Units";
 import EnemyInstance from "./EnemyInstance";
-import Bullet from './Bullet';
+import Ammunition from './Ammunition';
 
 const {ccclass, property} = cc._decorator;
 
@@ -22,7 +22,7 @@ export default class Enemy extends cc.Component {
     route: cc.Vec2[] = new Array<cc.Vec2>();
 
     parent: EnemyInstance = null;
-    
+
     private _distance: number = 0;
     distance (way: number, route: cc.Vec2[]) {
         let self = this;
@@ -103,7 +103,7 @@ export default class Enemy extends cc.Component {
             } else {
                 self.setWay(way + 1);
                 self.node.setPosition(route[self.getWay()]);
-                
+
             }
         } else {
             self.parent.onEnemyPassed(self.node);
@@ -125,9 +125,9 @@ export default class Enemy extends cc.Component {
      */
     onCollisionStay (otherChildren: cc.BoxCollider, selfChildren: cc.BoxCollider) {
         let self = selfChildren.node.getComponent(Enemy);
-        let other = otherChildren.node.getComponent(Bullet);
+        let other = otherChildren.node.getComponent(Ammunition);
         //console.log('emeny', self, 'other', other);
-        
+
         let enemys: cc.Node[] = self.parent.enemys;
         let index: number = -1;
 

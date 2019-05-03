@@ -1,61 +1,21 @@
-import BulletInstance from './BulletInstance';
+import Ammunition from './Ammunition';
+import Units from './Units';
+import { AmmoAttribute } from './AmmoInstance';
+import AmmoInstance from './AmmoInstance';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class Bullet extends cc.Component {
+export default class Bullet extends Ammunition {
 
-    @property()
-    speed: number = 1000;
-
-    @property()
-    damage: number = 100;
-
-    @property({tooltip: "名字"})
-    towerName: string = '';
-    
-    @property({tooltip: "子弹贴图"})
-    urlBullet: string = '';
-
-    @property({tooltip: "粒子贴图"})
-    urlParticle: string = '';
-
-    parent: BulletInstance = null;
-    target: cc.Vec2 = null;
-    angle: number = null;
-    origin: cc.Vec2 = null;
-
-    hit: boolean = false;
-
-    init(towerName: string, urlBullet: string, urlParticle: string, origin: cc.Vec2, angle: number, target: cc.Vec2, parent: BulletInstance, damage: number = 200, speed: number = 1000) {
+    init(ammoAttribute: AmmoAttribute, origin: cc.Vec2, target: cc.Node, parent: AmmoInstance) {
         let self = this;
-
-        self.parent = parent;
-        self.target = target.normalize();
-        self.angle = angle;
-        self.origin = origin;
-        
-        self.towerName = towerName;
-        self.urlBullet = urlBullet;
-        self.urlParticle = urlParticle;
-        self.damage = damage;
-        self.speed = speed;
-
-        self.node.setPosition(self.origin);
-        self.node.angle = self.angle;
-        
-        let _urlBullet: string = 'image/tower/' + self.towerName + '/bullets/' + self.urlBullet;
-        cc.loader.loadRes(_urlBullet, cc.SpriteFrame, function (error, spriteFrame) {
-            if (error) {
-                cc.log(error.message || error);
-                return;
-            }
-            self.node.getChildByName('sprite').getComponent(cc.Sprite).spriteFrame = spriteFrame;
-        });
-        
-        let _urlParticle: string = 'image/tower/' + self.towerName + '/bullets/' + self.urlParticle;
-        cc.loader.loadRes(_urlParticle, cc.ParticleAsset);
-
-        //cc.log(self);
+        super.init(ammoAttribute, origin, target, parent);
+        cc.log(target);
+        let B: cc.Vec2 = target.getPosition(cc.v2());
+        let AB: cc.Vec2 = B.sub(origin);
+        self.target = AB.normalize();
+        self.node.setPosition(origin);
+        this.node.angle = Units.vectorsToDegress(AB);
     }
 
     update (dt: number) {
@@ -66,14 +26,6 @@ export default class Bullet extends cc.Component {
             //cc.log(AB);
             self.node.setPosition(AB);
         }
-    }
-
-    onLoad () {
-        cc.log('Bullet', "onLoad");
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDebugDraw = true;
-        //manager.enabledDrawBoundingBox = true;
     }
 
     flying () {
@@ -92,7 +44,7 @@ export default class Bullet extends cc.Component {
         self.node.getChildByName('sprite').active = false;
         self.node.getChildByName('particle').active = true;
         self.node.getComponent(cc.BoxCollider).enabled = false;
-        
+
         self.node.getChildByName('particle').getComponent(cc.ParticleSystem).resetSystem();
 
         self.hit = true;
@@ -125,7 +77,7 @@ export default class Bullet extends cc.Component {
                 }
                 let finished: cc.ActionInstant = cc.callFunc(function(_target, args: Args) {
                     args.bullet.flying();
-                    args.bullet.parent.onBulletKilled(args.node);
+                    args.bullet.parent.onAmmoKilled(args.node);
                 }, this, new Args(self, selfChildren.node));//动作完成后会将节点放进对象池
 
                 let myAction = cc.sequence(particleEffect, cc.delayTime(0.2), finished);
@@ -133,7 +85,7 @@ export default class Bullet extends cc.Component {
                 break;
             }
             case 2: { // 撞墙
-                self.parent.onBulletKilled(selfChildren.node);
+                self.parent.onAmmoKilled(selfChildren.node);
                 break;
             }
         }

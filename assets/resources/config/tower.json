@@ -2,7 +2,7 @@
     "Tower": [
         {
             "towerName": "star",
-            "towerPattern": 0,
+            "pattern": "Bullet",
             "maxRadius": [200, 200, 250, 300],
             "minRadius": [0, 0, 0, 0],
             "attackInterval": [1, 1, 1, 1],
@@ -18,7 +18,7 @@
         },
         {
             "towerName": "ddd",
-            "towerPattern": 0,
+            "pattern": "Hitting",
             "maxRadius": [200, 200, 250, 300],
             "minRadius": [50, 50, 50, 50],
             "attackInterval": [0.8, 0.6, 0.4, 0.2],
@@ -34,7 +34,7 @@
         },
         {
             "towerName": "bomb",
-            "towerPattern": 1,
+            "pattern": "Bomb",
             "maxRadius": [200, 200, 250, 300],
             "minRadius": [50, 50, 50, 50],
             "attackInterval": [2, 2, 2, 2],

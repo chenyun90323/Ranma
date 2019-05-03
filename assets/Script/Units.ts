@@ -1,5 +1,11 @@
 const {ccclass, property} = cc._decorator;
 
+export enum Ammo {
+    Bullet = -1,
+    Bomb = -1,
+    Hitting = -1,
+};
+
 export const enum PointAndLine {
     Anti_clockwise = 1,
     Clockwise = 2,
@@ -28,7 +34,7 @@ export default class Units {
     static mol (a: cc.Vec2, b: cc.Vec2): number {
 	    return Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
     }
-            
+
     //判断点P在线段AB的哪个方向上
     static dir (A: cc.Vec2, B: cc.Vec2, P: cc.Vec2): PointAndLine {
 	    if (this.cross(A, B, P) > 0) return PointAndLine.Anti_clockwise;            //外积大于0,点p在线段AB的逆时针方向

@@ -1,15 +1,16 @@
 import EnemyInstance, { EnemyAttribute } from './EnemyInstance';
 import TowerInstance, { TowerAttribute } from './TowerInstance';
-import BulletInstance from './BulletInstance';
+import AmmoInstance from './AmmoInstance';
 import Enemy from './Enemy';
+import { Ammo } from './Units';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Game extends cc.Component {
-    
+
     @property({tooltip: "敌人配置"})
     urlEnemys: string = '';
-    
+
     @property({tooltip: "塔配置"})
     urlTowers: string = '';
 
@@ -21,15 +22,15 @@ export default class Game extends cc.Component {
    
     enemyInstance: EnemyInstance;
     towerInstance: TowerInstance;
-    bulletInstance: BulletInstance;
-    
+    ammoInstance: AmmoInstance;
+
     onLoad () {
         cc.log('Game', "onLoad");
         let self = this;
 
         self.enemyInstance = EnemyInstance._instance;
         self.towerInstance = TowerInstance._instance;
-        self.bulletInstance = BulletInstance._instance;
+        self.ammoInstance = AmmoInstance._instance;
 
         cc.loader.loadRes('config/' + self.urlEnemys,
             function (error, json: cc.JsonAsset) {
@@ -41,7 +42,7 @@ export default class Game extends cc.Component {
                 self.enemyInstance.init(self.enemyItems);
                 cc.log(self.enemyInstance);
             });
-        
+
         cc.loader.loadRes('config/' + self.urlTowers,
             function (error, json: cc.JsonAsset) {
                 if (error) {
@@ -83,21 +84,20 @@ export default class Game extends cc.Component {
             item.HP = enemyAttributeJson['HP'];
             item.URL = enemyAttributeJson['URL'];
             item.speed = enemyAttributeJson['speed'];
-            
             //cc.log('parseEnemy', item);
             items.push(item);
         });
 
         return items;
     }
-    
+
     parseTower (jsonAsset: cc.JsonAsset ): TowerAttribute[] {
         let items: TowerAttribute[] = new Array<TowerAttribute>();
-        
+
         jsonAsset.json['Tower'].forEach(towerAttributeJson => {
             let item: TowerAttribute = new TowerAttribute();
             item.towerName = towerAttributeJson['towerName'];
-            item.towerPattern = towerAttributeJson['towerPattern'];
+            item.pattern = this.parseAmmo(towerAttributeJson['pattern']);
             item.level = towerAttributeJson['level'];
             item.urlUpperParts = towerAttributeJson['URLs']['upper part'];
             item.urlPedestals = towerAttributeJson['URLs']['pedestal'];
@@ -116,6 +116,25 @@ export default class Game extends cc.Component {
         return items;
     }
 
+    parseAmmo (patternString: string): Ammo {
+        switch (patternString) {
+            case "bullet":
+            case "Bullet":
+            case "BULLET":
+                return Ammo.Bullet;
+            case "bomb":
+            case "Bomb":
+            case "BOMB":
+                return Ammo.Bomb;
+            case "hitting":
+            case "Hitting":
+            case "HITTING":
+                return Ammo.Hitting;
+            default:
+                throw new Error("Method not implemented.");
+        }
+    }
+
     onSwitch (event: cc.EventTarget, customEventData: string) {
         let self = this;
 
@@ -129,7 +148,7 @@ export default class Game extends cc.Component {
                 });
                 cc.log(self.enemyInstance.enemyPool, self.enemyInstance.enemys.length, characteristic);
                 cc.log(self.towerInstance.towers.length);
-                cc.log(self.bulletInstance);
+                cc.log(self.ammoInstance);
                 break;
             case '4':
                 self.enemyInstance.createEnemy(EnemyInstance._instance.node);

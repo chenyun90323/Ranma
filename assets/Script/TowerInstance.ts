@@ -1,11 +1,10 @@
-import TowerBase from './TowerBase';
-import TowerBullet from './TowerBullet';
-import TowerBomb from './TowerBomb';
+import Tower from './Tower';
+import { Ammo } from './Units';
 const {ccclass, property} = cc._decorator;
 
 export class TowerAttribute {
     towerName: string;
-    towerPattern: TowerPattern;
+    pattern: Ammo;
     level: number;
     maxRadiuses: number[];
     minRadiuses: number[];
@@ -16,11 +15,6 @@ export class TowerAttribute {
     urlPedestals: string[];
     urlBullets: string[];
     urlParticles: string[];
-};
-
-export enum TowerPattern {
-    bullet = 0,
-    bomb = 1
 };
 
 @ccclass
@@ -48,18 +42,9 @@ export default class TowerInstance extends cc.Component {
         let item: TowerAttribute = self.items[index];
         let tower: cc.Node = null;
         tower = cc.instantiate(self.towerPrefab);
-        switch (item.towerPattern) {
-            default:
-            case TowerPattern.bullet:
-                tower.addComponent(TowerBullet);
-                break;
-            case TowerPattern.bomb:
-                tower.addComponent(TowerBomb);
-                break;
-        }
         tower.setPosition(position);
         tower.parent = TowerInstance._instance.node; // 将生成的敌人加入节点树
         self.towers.push(tower);
-        tower.getComponent(TowerBase).init(self, item);
+        tower.getComponent(Tower).init(self, item);
     }
 }
