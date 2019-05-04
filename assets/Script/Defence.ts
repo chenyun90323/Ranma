@@ -20,13 +20,13 @@ export default class Defence extends cc.Component {
     onDisable () {
         cc.log('Defence', "onDestroy");
         let self = this;
-        
+
         self.node.off(cc.Node.EventType.TOUCH_START, self.touchStart, self);
         //self.node.off(cc.Node.EventType.TOUCH_MOVE, self.touchMove, self);
         self.node.off(cc.Node.EventType.TOUCH_END, self.touchEnd, self);
         self.node.off(cc.Node.EventType.TOUCH_CANCEL, self.touchCancel, self);
     }
-    
+
     touchStart (event: cc.Event.EventTouch) {
         //cc.log('Defence touchStart', event);
         let self = this;
@@ -37,12 +37,12 @@ export default class Defence extends cc.Component {
 
         Menu._instance.closeMenu();
         let tile: number = self.barrier.getTileGIDAt(position.x, 19 - position.y);
-        cc.log(tile);
+        //cc.log(tile);
         if (tile === 1) {
             Menu._instance.openMenu(xy);
         } else {
             cc.log('空');
-        }        
+        }
     }
 
     /*touchMove (event: cc.Event.EventTouch) {

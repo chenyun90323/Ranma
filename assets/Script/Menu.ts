@@ -19,7 +19,7 @@ export default class Menu extends cc.Component {
         self.node.on(cc.Node.EventType.TOUCH_END, self.touchEnd, self);
         self.node.on(cc.Node.EventType.TOUCH_CANCEL, self.touchCancel, self);
     }
-    
+
     onDestroy () {
         cc.log('Menu', "onDestroy");
         let self = this;
@@ -49,6 +49,9 @@ export default class Menu extends cc.Component {
                 break;
             case '1':
                 self.towerInstance.createTower(self.node.getPosition(), 1);
+                break;
+            case '2':
+                self.towerInstance.createTower(self.node.getPosition(), 2);
                 break;
         }
         self.closeMenu();
