@@ -1,6 +1,6 @@
 import Ammunition from './Ammunition';
-import { Ammo } from './Units';
 import Bullet from './Bullet';
+import { Ammo } from './misc/Units';
 const {ccclass, property} = cc._decorator;
 
 export class AmmoAttribute {
@@ -35,7 +35,7 @@ export default class AmmoInstance extends cc.Component {
         cc.log('AmmoInstance', "onLoad");
         let self = this;
 
-        AmmoInstance._instance = this;
+        AmmoInstance._instance = self;
 
         let initCount: number = 15;
         for (let i: number = 0; i < initCount; ++i) {
@@ -62,8 +62,8 @@ export default class AmmoInstance extends cc.Component {
             default:
                 throw new Error("Method not implemented.");
         }
-        ammo.getComponent(Ammunition).init(ammoAttribute, origin, target, self); //接下来就可以调用 enemy 身上的脚本进行初始化
         ammo.parent = parentNode; // 将生成的敌人加入节点树
+        ammo.getComponent(Ammunition).init(ammoAttribute, origin, target, self); //接下来就可以调用 enemy 身上的脚本进行初始化
     }
 
     onAmmoKilled (ammo: cc.Node) {
@@ -78,7 +78,7 @@ export default class AmmoInstance extends cc.Component {
             default:
                 throw new Error("Method not implemented.");
         }
-        cc.log(ammo);
+        //cc.log(ammo);
         self.ammoPool.put(ammo); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
     }
 }

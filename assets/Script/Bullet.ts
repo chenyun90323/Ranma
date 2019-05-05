@@ -1,7 +1,8 @@
 import Ammunition from './Ammunition';
-import Units from './Units';
+import Units from './misc/Units';
 import { AmmoAttribute } from './AmmoInstance';
 import AmmoInstance from './AmmoInstance';
+import Strategy from './Strategy';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -10,7 +11,7 @@ export default class Bullet extends Ammunition {
     init(ammoAttribute: AmmoAttribute, origin: cc.Vec2, target: cc.Node, parent: AmmoInstance) {
         let self = this;
         super.init(ammoAttribute, origin, target, parent);
-        cc.log(target);
+        //cc.log(target);
         let B: cc.Vec2 = target.getPosition(cc.v2());
         let AB: cc.Vec2 = B.sub(origin);
         self.target = AB.normalize();
@@ -22,7 +23,7 @@ export default class Bullet extends Ammunition {
         let self = this;
 
         if (!self.hit) {
-            let AB: cc.Vec2 = self.node.getPosition(cc.v2()).add(self.target.mul(dt * self.speed));
+            let AB: cc.Vec2 = self.node.getPosition(cc.v2()).add(self.target.mul(dt * self.speed * Strategy._instance.multiple));
             //cc.log(AB);
             self.node.setPosition(AB);
         }
