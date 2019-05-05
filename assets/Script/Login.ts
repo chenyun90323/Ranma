@@ -11,7 +11,7 @@ export default class Lg extends cc.Component {
 
     togo  () {
     
-            cc.director.loadScene("Tower")
+            cc.director.loadScene("Mian")
         
            
         }
