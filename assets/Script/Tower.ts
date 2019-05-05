@@ -1,16 +1,20 @@
-import Units from "./Units";
-import BulletInstance from './BulletInstance';
+import AmmoInstance, { AmmoAttribute } from './AmmoInstance';
 import TowerInstance from './TowerInstance';
 import EnemyInstance from './EnemyInstance';
+import { TowerAttribute } from './TowerInstance';
+import Units, { Ammo } from './Units';
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Tower extends cc.Component {
-    
+
+    @property({type: cc.Enum(Ammo), tooltip: "发射方式"})
+    pattern: Ammo = Ammo.Bullet;
+
     @property({tooltip: "最大半径"})
     maxRadiuses: number[] = [];
-    
+
     @property({tooltip: "最小半径"})
     minRadiuses: number[] = [];
 
@@ -23,64 +27,69 @@ export default class Tower extends cc.Component {
     @property({tooltip: "等级"})
     level: number = 0;
 
-    @property({tooltip: "塔贴图"})
-    urlTowers: string[] = [];  
+    @property({tooltip: "塔上部贴图"})
+    urlUpperParts: string[] = []; 
+
+    @property({tooltip: "塔基座贴图"})
+    urlPedestals: string[] = [];
 
     @property({tooltip: "子弹贴图"})
     urlBullets: string[] = [];
+
+    @property({tooltip: "粒子贴图"})
+    urlParticles: string[] =[];
 
     @property({tooltip: "攻击伤血"})
     damages: number[] = [];
 
     @property({tooltip: "速度"})
     speeds: number[] = [];
-    
+
     parent: TowerInstance = null;
 
-    bulletInstance: BulletInstance;
+    ammoInstance: AmmoInstance;
     enemys: cc.Node[] = null;
-    timer: number = 0;
+    private _timer: number = 0;
+    setTimer (timer: number) {
+        this._timer = timer;
+    }
+    getTimer (): number {
+        return this._timer;
+    }
 
-    init(parent: TowerInstance, towerName: string, level: number = 0, urlSprites: string[], urlBullets: string[], attackIntervals: number[], damages: number[], maxRadiuses: number[], minRadiuses: number[], speeds: number[]) {
+    init(parent: TowerInstance, item: TowerAttribute) {
         cc.log('Tower', "init");
         let self = this;
 
-        self.towerName = towerName;
-        self.level = level;
-        self.maxRadiuses = maxRadiuses;
-        self.minRadiuses = minRadiuses;
-        self.attackIntervals = attackIntervals;
-        self.damages = damages;
-        self.speeds = speeds;
+        self.towerName = item.towerName;
+        self.pattern = item.pattern;
+        self.level = item.level;
+        self.maxRadiuses = item.maxRadiuses;
+        self.minRadiuses = item.minRadiuses;
+        self.attackIntervals = item.attackIntervals;
+        self.damages = item.damages;
+        self.speeds = item.speeds;
         self.parent = parent;
-    
-        self.urlTowers = urlSprites;
-        self.urlBullets = urlBullets;
-        
-        self.node.angle = 0;
-        let url: string = 'image/tower/' + self.towerName + '/sprites/' + self.urlTowers[self.level];
-        cc.loader.loadRes(url, cc.SpriteFrame, function (error, spriteFrame) {
-            if (error) {
-                cc.log(error.message || error);
-                return;
-            }
-            self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-        }); 
+
+        self.urlUpperParts = item.urlUpperParts;
+        self.urlPedestals = item.urlPedestals;
+        self.urlBullets = item.urlBullets;
+        self.urlParticles = item.urlParticles;
+
+        self.node.getChildByName('upper part').angle = 0;
+        self.textureMapping(self.towerName, self.urlUpperParts[self.level], self.urlPedestals[self.level]);
     }
 
     update (dt: number) {
         let self = this;
-        
-        self.timer -= dt;
-        let position: cc.Vec2 = self.node.getPosition();
-        
-        self.aim(self.enemys, position, self.timer);
+        self._timer -= dt;
+        self.aim(self.enemys, self.node.getPosition(cc.v2()), self._timer);
     }
 
     // lateUpdate () {}
 
     /*start () {
-        cc.log('Tower', "start");
+        cc.log('TowerBase', "start");
         let self = this;
     }*/
 
@@ -91,7 +100,7 @@ export default class Tower extends cc.Component {
         /*let manager = cc.director.getCollisionManager();
         manager.enabled = true;
         manager.enabledDebugDraw = true;*/
-        self.bulletInstance = BulletInstance._instance;
+        self.ammoInstance = AmmoInstance._instance;
         self.enemys = EnemyInstance._instance.enemys;
         self.node.on(cc.Node.EventType.TOUCH_START, self.touchStart, self);
         //self.node.on(cc.Node.EventType.TOUCH_MOVE, self.touchMove, self);
@@ -110,17 +119,10 @@ export default class Tower extends cc.Component {
 
     touchStart (event: cc.Event.EventTouch) {
         let self = this;
-        cc.log('touchStart', self);
-        if (self.urlTowers.length - 1 > self.level) {
+        cc.log('Tower', 'touchStart', self);
+        if (self.urlUpperParts.length - 1 > self.level) {
             self.level++;
-            let url: string = 'image/tower/' + self.towerName + '/sprites/' + self.urlTowers[self.level];
-            cc.loader.loadRes(url, cc.SpriteFrame, function (error, spriteFrame) {
-                if (error) {
-                    cc.log(error.message || error);
-                    return;
-                }
-                self.node.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-            });
+            self.textureMapping(self.towerName, self.urlUpperParts[self.level], self.urlPedestals[self.level]);
         } else {
             cc.log('以到最高级');
         }
@@ -132,16 +134,36 @@ export default class Tower extends cc.Component {
 
     touchEnd (event: cc.Event.EventTouch) {
         let self = this;
-        cc.log('touchEnd', self);
+        cc.log('Tower', 'touchEnd', self);
         let graphics: cc.Graphics = self.node.getChildByName('range').getComponent(cc.Graphics);
         graphics.clear();
     }
 
     touchCancel (event: cc.Event.EventTouch) {
         let self = this;
-        cc.log('touchCancel', self);
+        cc.log('Tower', 'touchCancel', self);
         let graphics: cc.Graphics = self.node.getChildByName('range').getComponent(cc.Graphics);
         graphics.clear();
+    }
+
+    textureMapping (towerName: string, upperPart: string, pedestal: string) {
+        let self = this;
+        let urlUpperPart: string = 'image/tower/' + towerName + '/sprites/' + upperPart;
+        let urlPedestal: string = 'image/tower/' + towerName + '/sprites/' + pedestal;
+        cc.loader.loadRes(urlUpperPart, cc.SpriteFrame, function (error, spriteFrame) {
+            if (error) {
+                cc.log(error.message || error);
+                return;
+            }
+            self.node.getChildByName('upper part').getComponent(cc.Sprite).spriteFrame = spriteFrame;
+        }); 
+        cc.loader.loadRes(urlPedestal, cc.SpriteFrame, function (error, spriteFrame) {
+            if (error) {
+                cc.log(error.message || error);
+                return;
+            }
+            self.node.getChildByName('pedestal').getComponent(cc.Sprite).spriteFrame = spriteFrame;
+        }); 
     }
 
     /*touchMove (event: cc.Event.EventTouch) {
@@ -151,41 +173,30 @@ export default class Tower extends cc.Component {
 
     aim (enemys: cc.Node[], position: cc.Vec2, timer: number) {
         let self = this;
-        let hasChange: boolean = false;
-        let target: cc.Vec2;
-        let angle: number;
 
-        enemys.reverse();
-        enemys.forEach(emeny => {
-            let A: cc.Vec2 = emeny.getPosition();
-            let AB: cc.Vec2 = position.sub(A);
+        enemys.some(emeny => {
+            let B: cc.Vec2 = emeny.getPosition(cc.v2());
+            let AB: cc.Vec2 = B.sub(position);
             let rAB: number = AB.mag();
             if (rAB <= self.maxRadiuses[self.level] && rAB >= self.minRadiuses[self.level]) {
-                angle = Units.vectorsToDegress(AB);
-                target = cc.v2(-AB.x, -AB.y);
-                hasChange = true;
+                self.node.getChildByName('upper part').angle = Units.vectorsToDegress(AB);
+                if (timer <= 0) {
+                    let origin: cc.Vec2 = self.node.getPosition(cc.v2());
+                    self.setTimer(self.attackIntervals[self.level]);
+                    self.attack(origin, emeny);
+                }
+                return true;
+            } else {
+                return false;
             }   
         });
-        enemys.reverse();
-
-        
-        if (hasChange) {
-            self.node.angle = angle;
-            if (timer <= 0) {
-                let origin: cc.Vec2 = self.node.getPosition();
-                self.setTimer(self.attackIntervals[self.level]);
-                self.attack(origin, angle, target);
-            }
-        }
     }
 
-    setTimer(timer: number) {
-        this.timer = timer;
-    }
-
-    attack (origin: cc.Vec2, angle: number, target: cc.Vec2) {
+    attack (origin: cc.Vec2, target: cc.Node) {
         let self = this;
-        
-        self.bulletInstance.createBullet(self.node.parent, self.towerName, self.urlBullets[self.level], origin, angle, target, self.damages[self.level], self.speeds[self.level]);
+        let ammoAttribute: AmmoAttribute = new AmmoAttribute(self.pattern, self.speeds[self.level],
+                                                self.damages[self.level], self.towerName,
+                                                self.urlBullets[self.level], self.urlParticles[self.level]);
+        self.ammoInstance.createAmmo(self.node.parent, ammoAttribute, origin, target);
     }
 }

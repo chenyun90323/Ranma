@@ -9,7 +9,7 @@ export class EnemyAttribute {
 
 @ccclass
 export default class EnemyInstance extends cc.Component {
-    
+
     @property({type: cc.Prefab, tooltip: "敌人Prefab"})
     enemyPrefab: cc.Prefab = null;
 
@@ -17,7 +17,7 @@ export default class EnemyInstance extends cc.Component {
 
     enemyPool: cc.NodePool = new cc.NodePool("Enemy");
     enemys: cc.Node[] = new Array<cc.Node>();
-    
+
     static _instance: EnemyInstance;
 
     lateUpdate () {
@@ -33,7 +33,7 @@ export default class EnemyInstance extends cc.Component {
     onLoad () {
         cc.log('EnemyInstance', "onLoad");
         let self = this;
-        
+
         EnemyInstance._instance = this;
 
         let initCount: number = 15;
@@ -59,7 +59,6 @@ export default class EnemyInstance extends cc.Component {
 
         let item: EnemyAttribute = self.items[Math.floor(Math.random() * self.items.length)];
         enemy.getComponent(Enemy).init(self, item.HP, item.URL, item.speed); //接下来就可以调用 enemy 身上的脚本进行初始化
-        //cc.log(item);
         enemy.parent = parentNode; // 将生成的敌人加入节点树
         self.enemys.push(enemy);
     }
