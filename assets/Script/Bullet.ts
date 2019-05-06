@@ -8,6 +8,8 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Bullet extends Ammunition {
 
+    _damage: boolean = false;
+
     init(ammoAttribute: AmmoAttribute, origin: cc.Vec2, target: cc.Node, parent: AmmoInstance) {
         let self = this;
         super.init(ammoAttribute, origin, target, parent);
@@ -49,6 +51,16 @@ export default class Bullet extends Ammunition {
         self.node.getChildByName('particle').getComponent(cc.ParticleSystem).resetSystem();
 
         self.hit = true;
+    }
+
+    isDamage(_: cc.Node): boolean {
+        let self = this;
+        if (self._damage) {
+            return self._damage;
+        } else {
+            self._damage = true;
+            return false;
+        }
     }
 
     /**

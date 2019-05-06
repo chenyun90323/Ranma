@@ -135,11 +135,13 @@ export default class Enemy extends cc.Component {
         enemys.some((emenyNode: cc.Node, _index) => {
             //cc.log(emenyNode.getComponent(Enemy") === self);
             if (emenyNode.getComponent(Enemy) === self) {
-                let damage = other.damage;
-                self.HP -= damage;
-                index = _index;
-                if (self.HP <= 0) {
-                    self.parent.onEnemyKilled(self.node, index);
+                if (!other.isDamage(self.node)) {
+                    let damage = other.damage;
+                    self.HP -= damage;
+                    index = _index;
+                    if (self.HP <= 0) {
+                        self.parent.onEnemyKilled(self.node, index);
+                    }
                 }
                 return true;
             } else {

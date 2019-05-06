@@ -316,7 +316,7 @@
       "x": 0,
       "y": 0
     },
-    "positionType": 0,
+    "positionType": 1,
     "emitterMode": 0,
     "gravity": {
       "__type__": "cc.Vec2",
@@ -367,7 +367,7 @@
     "_size": {
       "__type__": "cc.Size",
       "width": 5,
-      "height": 80
+      "height": 20
     },
     "_id": ""
   },

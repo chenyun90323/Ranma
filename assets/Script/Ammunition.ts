@@ -68,6 +68,7 @@ export default abstract class Ammunition extends cc.Component implements AmmoI {
         //manager.enabledDrawBoundingBox = true;
     }
 
+    abstract isDamage (emenyNode: cc.Node): boolean;
     abstract update (dt: number);
     abstract onCollisionStay (otherChildren: cc.BoxCollider, selfChildren: cc.BoxCollider);
 }

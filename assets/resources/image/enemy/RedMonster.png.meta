@@ -1,13 +1,14 @@
 {
-  "ver": "2.2.0",
+  "ver": "2.3.0",
   "uuid": "f7705539-2d72-4bd8-8068-d2f9959ca49a",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "platformSettings": {},
   "subMetas": {
     "RedMonster": {
-      "ver": "1.0.3",
+      "ver": "1.0.4",
       "uuid": "a2a7cd61-30db-4ab3-b844-18ab63f5e751",
       "rawTextureUuid": "f7705539-2d72-4bd8-8068-d2f9959ca49a",
       "trimType": "auto",
