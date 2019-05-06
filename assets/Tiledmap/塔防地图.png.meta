@@ -1,13 +1,14 @@
 {
-  "ver": "2.2.0",
+  "ver": "2.3.0",
   "uuid": "5d566c63-6d8a-4b1e-9a94-16a08370cf4b",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "platformSettings": {},
   "subMetas": {
     "塔防地图": {
-      "ver": "1.0.3",
+      "ver": "1.0.4",
       "uuid": "3e56c01e-b67d-4b50-917d-187b7ed91b73",
       "rawTextureUuid": "5d566c63-6d8a-4b1e-9a94-16a08370cf4b",
       "trimType": "auto",

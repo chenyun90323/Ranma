@@ -1,13 +1,14 @@
 {
-  "ver": "2.2.0",
+  "ver": "2.3.0",
   "uuid": "32b66395-2152-4645-a3da-c0fb18f86f87",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "platformSettings": {},
   "subMetas": {
     "PurpleMonster": {
-      "ver": "1.0.3",
+      "ver": "1.0.4",
       "uuid": "f5336d08-97f3-4b53-901e-57c857515b54",
       "rawTextureUuid": "32b66395-2152-4645-a3da-c0fb18f86f87",
       "trimType": "auto",

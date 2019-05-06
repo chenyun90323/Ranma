@@ -1,13 +1,14 @@
 {
-  "ver": "2.2.0",
+  "ver": "2.3.0",
   "uuid": "acf68d80-3bb7-480e-ae84-ea000ac27a2b",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "platformSettings": {},
   "subMetas": {
     "BuleMonster": {
-      "ver": "1.0.3",
+      "ver": "1.0.4",
       "uuid": "f6a105e2-8b5b-4ff1-98d8-8f5ccec06482",
       "rawTextureUuid": "acf68d80-3bb7-480e-ae84-ea000ac27a2b",
       "trimType": "auto",
