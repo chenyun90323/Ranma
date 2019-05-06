@@ -34,7 +34,7 @@ export default class EnemyInstance extends cc.Component {
         cc.log('EnemyInstance', "onLoad");
         let self = this;
 
-        EnemyInstance._instance = this;
+        EnemyInstance._instance = self;
 
         let initCount: number = 15;
         for (let i: number = 0; i < initCount; ++i) {
@@ -48,7 +48,7 @@ export default class EnemyInstance extends cc.Component {
         self.items = items;
     }
 
-    createEnemy (parentNode: cc.Node) {
+    createEnemy (index: number) {
         let self = this;
         let enemy: cc.Node = null;
         if (self.enemyPool.size() > 0) { // 通过 size 接口判断对象池中是否有空闲的对象
@@ -57,9 +57,9 @@ export default class EnemyInstance extends cc.Component {
             enemy = cc.instantiate(self.enemyPrefab);
         }
 
-        let item: EnemyAttribute = self.items[Math.floor(Math.random() * self.items.length)];
+        let item: EnemyAttribute = self.items[index];
         enemy.getComponent(Enemy).init(self, item.HP, item.URL, item.speed); //接下来就可以调用 enemy 身上的脚本进行初始化
-        enemy.parent = parentNode; // 将生成的敌人加入节点树
+        enemy.parent = EnemyInstance._instance.node; // 将生成的敌人加入节点树
         self.enemys.push(enemy);
     }
 

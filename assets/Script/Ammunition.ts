@@ -1,7 +1,7 @@
 import AmmoInstance from './AmmoInstance';
-import { Ammo } from './Units';
 import { AmmoAttribute } from './AmmoInstance';
 import AmmoI from './AmmoI';
+import { Ammo } from './misc/Units';
 
 const {ccclass, property} = cc._decorator;
 
@@ -57,7 +57,7 @@ export default abstract class Ammunition extends cc.Component implements AmmoI {
         let _urlParticle: string = 'image/tower/' + self.towerName + '/bullets/' + self.urlParticle;
         cc.loader.loadRes(_urlParticle, cc.ParticleAsset);
 
-        cc.log(self);
+        //cc.log(self);
     }
 
     onLoad () {
@@ -68,5 +68,6 @@ export default abstract class Ammunition extends cc.Component implements AmmoI {
         //manager.enabledDrawBoundingBox = true;
     }
 
-    abstract onCollisionStay(otherChildren: cc.BoxCollider, selfChildren: cc.BoxCollider);
+    abstract update (dt: number);
+    abstract onCollisionStay (otherChildren: cc.BoxCollider, selfChildren: cc.BoxCollider);
 }

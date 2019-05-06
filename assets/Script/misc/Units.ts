@@ -1,17 +1,15 @@
-const {ccclass, property} = cc._decorator;
-
-export enum Ammo {
-    Bullet = -1,
-    Bomb = -1,
-    Hitting = -1,
-};
-
 export const enum PointAndLine {
     Anti_clockwise = 1,
     Clockwise = 2,
     Anti_extension_line = 3,
     Extension_line = 4,
     Line = 5
+};
+
+export enum Ammo {
+    Bullet = -1,
+    Bomb = -1,
+    Hitting = -1,
 };
 
 export default class Units {

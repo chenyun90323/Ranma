@@ -2,7 +2,8 @@ import AmmoInstance, { AmmoAttribute } from './AmmoInstance';
 import TowerInstance from './TowerInstance';
 import EnemyInstance from './EnemyInstance';
 import { TowerAttribute } from './TowerInstance';
-import Units, { Ammo } from './Units';
+import Units, { Ammo } from './misc/Units';
+import Strategy from './Strategy';
 
 const {ccclass, property} = cc._decorator;
 
@@ -82,7 +83,7 @@ export default class Tower extends cc.Component {
 
     update (dt: number) {
         let self = this;
-        self._timer -= dt;
+        self._timer -= dt * Strategy._instance.multiple;
         self.aim(self.enemys, self.node.getPosition(cc.v2()), self._timer);
     }
 

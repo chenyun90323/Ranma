@@ -1,5 +1,5 @@
 import Tower from './Tower';
-import { Ammo } from './Units';
+import { Ammo } from './misc/Units';
 const {ccclass, property} = cc._decorator;
 
 export class TowerAttribute {

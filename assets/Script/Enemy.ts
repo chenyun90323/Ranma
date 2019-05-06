@@ -1,6 +1,7 @@
-import Units, { PointAndLine } from "./Units";
+import Units, { PointAndLine } from "./misc/Units";
 import EnemyInstance from "./EnemyInstance";
 import Ammunition from './Ammunition';
+import Strategy from './Strategy';
 
 const {ccclass, property} = cc._decorator;
 
@@ -96,7 +97,7 @@ export default class Enemy extends cc.Component {
 
         if (self.hasWay()) {
             let P0: cc.Vec2 = route[way + 1].sub(position);
-            let P1: cc.Vec2 = position.add(P0.normalize().mul(dt * speed));
+            let P1: cc.Vec2 = position.add(P0.normalize().mul(dt * speed * Strategy._instance.multiple));
             let dir: PointAndLine = Units.dir(route[way], P1, route[way + 1]);
             if (dir == PointAndLine.Line) {
                 self.node.setPosition(P1);

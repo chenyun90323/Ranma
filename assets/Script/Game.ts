@@ -2,7 +2,8 @@ import EnemyInstance, { EnemyAttribute } from './EnemyInstance';
 import TowerInstance, { TowerAttribute } from './TowerInstance';
 import AmmoInstance from './AmmoInstance';
 import Enemy from './Enemy';
-import { Ammo } from './Units';
+import { Ammo } from './misc/Units';
+import Strategy, { StrategyAttribute } from './Strategy';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -14,15 +15,20 @@ export default class Game extends cc.Component {
     @property({tooltip: "塔配置"})
     urlTowers: string = '';
 
+    @property({tooltip: "策略配置"})
+    urlStrategy: string = '';
+
     @property({type: cc.Prefab, tooltip: "墙Prefab"})
     wallPrefab: cc.Prefab = null;
 
     enemyItems: EnemyAttribute[] = null;
     towerItems: TowerAttribute[] = null;
-   
+    strategyItems: StrategyAttribute[] = null;
+
     enemyInstance: EnemyInstance;
     towerInstance: TowerInstance;
     ammoInstance: AmmoInstance;
+    strategy: Strategy;
 
     onLoad () {
         cc.log('Game', "onLoad");
@@ -31,6 +37,7 @@ export default class Game extends cc.Component {
         self.enemyInstance = EnemyInstance._instance;
         self.towerInstance = TowerInstance._instance;
         self.ammoInstance = AmmoInstance._instance;
+        self.strategy = Strategy._instance;
 
         cc.loader.loadRes('config/' + self.urlEnemys,
             function (error, json: cc.JsonAsset) {
@@ -54,6 +61,16 @@ export default class Game extends cc.Component {
                 cc.log(self.towerInstance);
             });
 
+        cc.loader.loadRes('config/' + self.urlStrategy,
+            function (error, json: cc.JsonAsset) {
+                if (error) {
+                    cc.log(error.message || error);
+                    return;
+                }
+                self.strategyItems = self.parseStrategy(json);
+                self.strategy.init(self.strategyItems);
+                cc.log(self.strategyItems);
+            });
         cc.log('over')
     }
 
@@ -76,7 +93,7 @@ export default class Game extends cc.Component {
         });*/
     }
  
-    parseEnemy (jsonAsset: cc.JsonAsset ): EnemyAttribute[] {
+    parseEnemy (jsonAsset: cc.JsonAsset): EnemyAttribute[] {
         let items: EnemyAttribute[] = new Array<EnemyAttribute>();
 
         jsonAsset.json['Monster'].forEach(enemyAttributeJson => {
@@ -91,7 +108,7 @@ export default class Game extends cc.Component {
         return items;
     }
 
-    parseTower (jsonAsset: cc.JsonAsset ): TowerAttribute[] {
+    parseTower (jsonAsset: cc.JsonAsset): TowerAttribute[] {
         let items: TowerAttribute[] = new Array<TowerAttribute>();
 
         jsonAsset.json['Tower'].forEach(towerAttributeJson => {
@@ -113,6 +130,22 @@ export default class Game extends cc.Component {
             items.push(item);
         });
 
+        return items;
+    }
+
+    parseStrategy (jsonAsset: cc.JsonAsset): StrategyAttribute[] {
+        let items: StrategyAttribute[] = new Array<StrategyAttribute>();
+        cc.log(jsonAsset.json['Strategy']);
+        jsonAsset.json['Strategy']['wave'].forEach(strategyAttributeJson => {
+            let item: StrategyAttribute = new StrategyAttribute();
+            item.attribute = strategyAttributeJson['attribute'];
+            item.interval = strategyAttributeJson['interval'];
+            item.times = strategyAttributeJson['times'];
+            item.after = strategyAttributeJson['after'];
+
+            cc.log('parseStrategy', item);
+            items.push(item);
+        });
         return items;
     }
 
@@ -151,7 +184,7 @@ export default class Game extends cc.Component {
                 cc.log(self.ammoInstance);
                 break;
             case '4':
-                self.enemyInstance.createEnemy(EnemyInstance._instance.node);
+                self.enemyInstance.createEnemy(0);
                 //cc.log(self.enemyPool);
                 break;
         }
