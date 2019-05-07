@@ -1,8 +1,8 @@
 import Ammunition from './Ammunition';
-import Units from './misc/Units';
+import Units from '../misc/Units';
 import { AmmoAttribute } from './AmmoInstance';
 import AmmoInstance from './AmmoInstance';
-import Strategy from './Strategy';
+import Strategy from '../Strategy';
 const {ccclass, property} = cc._decorator;
 
 @ccclass

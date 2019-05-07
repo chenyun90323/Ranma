@@ -1,6 +1,6 @@
 import Ammunition from './Ammunition';
 import Bullet from './Bullet';
-import { Ammo } from './misc/Units';
+import { Ammo } from '../misc/Units';
 const {ccclass, property} = cc._decorator;
 
 export class AmmoAttribute {
