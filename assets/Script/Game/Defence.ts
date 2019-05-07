@@ -7,9 +7,12 @@ export default class Defence extends cc.Component {
     @property({type: cc.TiledLayer, tooltip: "barrier图层"})
     barrier: cc.TiledLayer = null;
 
+    static _instance: Defence;
+
     onLoad () {
         cc.log('Defence', "onLoad");
         let self = this;
+        Defence._instance = self; 
 
         self.node.on(cc.Node.EventType.TOUCH_START, self.touchStart, self);
         //self.node.on(cc.Node.EventType.TOUCH_MOVE, self.touchMove, self);
@@ -41,7 +44,7 @@ export default class Defence extends cc.Component {
         if (tile === 1) {
             Menu._instance.openMenu(xy);
         } else {
-            cc.log('空');
+            cc.log(tile);
         }
     }
 

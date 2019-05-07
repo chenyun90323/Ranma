@@ -7,7 +7,7 @@ export class StrategyAttribute {
     times: number;
     interval: number;
     after: number;
-}
+};
 
 enum State {
     Start,
@@ -34,6 +34,8 @@ export default class Strategy extends cc.Component {
     stTimer: number = 0;
     t0Timer: number = 0;
     t1Timer: number = 0;
+
+    static _instance: Strategy;
 
     private _state: State = State.Over;
     changeState (state: State) {
@@ -88,8 +90,6 @@ export default class Strategy extends cc.Component {
     state (): State {
         return this._state;
     }
-
-    static _instance: Strategy;
 
     init (items: StrategyAttribute[]) {
         let self = this;
