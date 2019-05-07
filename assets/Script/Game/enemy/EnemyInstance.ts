@@ -1,4 +1,6 @@
 import Enemy from './Enemy';
+import Defence from '../Defence';
+import Route from '../misc/Route';
 const {ccclass, property} = cc._decorator;
 
 export class EnemyAttribute { 
@@ -14,6 +16,7 @@ export default class EnemyInstance extends cc.Component {
     enemyPrefab: cc.Prefab = null;
 
     items: EnemyAttribute[] = null;
+    route: cc.Vec2[];
 
     enemyPool: cc.NodePool = new cc.NodePool("Enemy");
     enemys: cc.Node[] = new Array<cc.Node>();
@@ -41,6 +44,8 @@ export default class EnemyInstance extends cc.Component {
             let enemy = cc.instantiate(self.enemyPrefab); // 创建节点
             self.enemyPool.put(enemy); // 通过 put 接口放入对象池
         }
+
+        self.route = new Route(30, 20, cc.v2(480, 320)).route;
     }
 
     init (items: EnemyAttribute[]) {
@@ -58,7 +63,7 @@ export default class EnemyInstance extends cc.Component {
         }
 
         let item: EnemyAttribute = self.items[index];
-        enemy.getComponent(Enemy).init(self, item.HP, item.URL, item.speed); //接下来就可以调用 enemy 身上的脚本进行初始化
+        enemy.getComponent(Enemy).init(self, item.HP, item.URL, item.speed, self.route); //接下来就可以调用 enemy 身上的脚本进行初始化
         enemy.parent = EnemyInstance._instance.node; // 将生成的敌人加入节点树
         self.enemys.push(enemy);
     }

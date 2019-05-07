@@ -72,7 +72,7 @@ export default class Enemy extends cc.Component {
         //manager.enabledDrawBoundingBox = true;
     }
 
-    init(parent: EnemyInstance, stamina: number, url: string = '', speed: number = 100) {
+    init(parent: EnemyInstance, stamina: number, url: string = '', speed: number = 100, route: cc.Vec2[]) {
         let self = this;
 
         self.parent = parent;
@@ -80,6 +80,7 @@ export default class Enemy extends cc.Component {
         self.stamina = stamina;
         self.HP = stamina;
         self.url = url;
+        self.route = route;
    
         self.setWay(0);
         self.node.setPosition(self.route[0]);
