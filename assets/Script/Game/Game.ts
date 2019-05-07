@@ -1,7 +1,7 @@
-import EnemyInstance, { EnemyAttribute } from './EnemyInstance';
-import TowerInstance, { TowerAttribute } from './TowerInstance';
-import AmmoInstance from './AmmoInstance';
-import Enemy from './Enemy';
+import EnemyInstance, { EnemyAttribute } from './enemy/EnemyInstance';
+import TowerInstance, { TowerAttribute } from './tower/TowerInstance';
+import AmmoInstance from './ammo/AmmoInstance';
+import Enemy from './enemy/Enemy';
 import { Ammo } from './misc/Units';
 import Strategy, { StrategyAttribute } from './Strategy';
 const {ccclass, property} = cc._decorator;
@@ -30,14 +30,14 @@ export default class Game extends cc.Component {
     ammoInstance: AmmoInstance;
     strategy: Strategy;
 
-    onLoad () {
-        cc.log('Game', "onLoad");
-        let self = this;
+    static _instance: Game;
 
-        self.enemyInstance = EnemyInstance._instance;
-        self.towerInstance = TowerInstance._instance;
-        self.ammoInstance = AmmoInstance._instance;
-        self.strategy = Strategy._instance;
+    init (urlEnemys: string, urlTowers: string, urlStrategy: string) {
+        cc.log('Game', "init");
+        let self = this;
+        self.urlEnemys = urlEnemys;
+        self.urlStrategy = urlStrategy;
+        self.urlTowers = urlTowers;
 
         cc.loader.loadRes('config/' + self.urlEnemys,
             function (error, json: cc.JsonAsset) {
@@ -72,6 +72,17 @@ export default class Game extends cc.Component {
                 cc.log(self.strategyItems);
             });
         cc.log('over')
+    }
+
+    onLoad () {
+        cc.log('Game', "onLoad");
+        let self = this;
+        self.enemyInstance = EnemyInstance._instance;
+        self.towerInstance = TowerInstance._instance;
+        self.ammoInstance = AmmoInstance._instance;
+        self.strategy = Strategy._instance;
+
+        Game._instance = self;
     }
 
     onDestroy () {

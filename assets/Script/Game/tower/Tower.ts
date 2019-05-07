@@ -1,9 +1,9 @@
-import AmmoInstance, { AmmoAttribute } from './AmmoInstance';
+import AmmoInstance, { AmmoAttribute } from '../ammo/AmmoInstance';
 import TowerInstance from './TowerInstance';
-import EnemyInstance from './EnemyInstance';
+import EnemyInstance from '../enemy/EnemyInstance';
 import { TowerAttribute } from './TowerInstance';
-import Units, { Ammo } from './misc/Units';
-import Strategy from './Strategy';
+import Units, { Ammo } from '../misc/Units';
+import Strategy from '../Strategy';
 
 const {ccclass, property} = cc._decorator;
 

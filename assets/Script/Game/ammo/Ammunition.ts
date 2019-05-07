@@ -1,7 +1,6 @@
-import AmmoInstance from './AmmoInstance';
-import { AmmoAttribute } from './AmmoInstance';
 import AmmoI from './AmmoI';
-import { Ammo } from './misc/Units';
+import { Ammo } from '../misc/Units';
+import AmmoInstance, { AmmoAttribute } from './AmmoInstance';
 
 const {ccclass, property} = cc._decorator;
 

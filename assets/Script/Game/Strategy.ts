@@ -1,5 +1,5 @@
 import Timer from './misc/Timer';
-import EnemyInstance from './EnemyInstance';
+import EnemyInstance from './enemy/EnemyInstance';
 const {ccclass, property} = cc._decorator;
 
 export class StrategyAttribute {

@@ -1,7 +1,7 @@
-import Units, { PointAndLine } from "./misc/Units";
+import Units, { PointAndLine } from "../misc/Units";
 import EnemyInstance from "./EnemyInstance";
-import Ammunition from './Ammunition';
-import Strategy from './Strategy';
+import Ammunition from '../ammo/Ammunition';
+import Strategy from '../Strategy';
 
 const {ccclass, property} = cc._decorator;
 

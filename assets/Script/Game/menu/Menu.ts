@@ -1,4 +1,4 @@
-import TowerInstance from './TowerInstance';
+import TowerInstance from '../tower/TowerInstance';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
