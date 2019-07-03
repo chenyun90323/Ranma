@@ -26,7 +26,6 @@ export default abstract class Ammunition extends cc.Component implements AmmoI {
     urlParticle: string = '';
 
     parent: AmmoInstance = null;
-    target: cc.Vec2 = null;
     angle: number = null;
 
     hit: boolean = false;

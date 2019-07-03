@@ -1,6 +1,7 @@
 import Ammunition from './Ammunition';
 import Bullet from './Bullet';
 import { Ammo } from '../misc/Units';
+import Hitting from './Hitting';
 const {ccclass, property} = cc._decorator;
 
 export class AmmoAttribute {
@@ -57,8 +58,10 @@ export default class AmmoInstance extends cc.Component {
             case Ammo.Bullet:
                 ammo.addComponent(Bullet);
                 break;
-            case Ammo.Bomb:
             case Ammo.Hitting:
+                ammo.addComponent(Hitting);
+                break;
+            case Ammo.Bomb:
             default:
                 throw new Error("Method not implemented.");
         }
@@ -73,8 +76,10 @@ export default class AmmoInstance extends cc.Component {
             case Ammo.Bullet:
                 ammo.removeComponent(Bullet)
                 break;
-            case Ammo.Bomb:
             case Ammo.Hitting:
+                ammo.removeComponent(Hitting);
+                break;
+            case Ammo.Bomb:
             default:
                 throw new Error("Method not implemented.");
         }

@@ -1,5 +1,7 @@
 import Timer from './misc/Timer';
 import EnemyInstance from './enemy/EnemyInstance';
+import AmmoInstance from './ammo/AmmoInstance';
+import TowerInstance from './tower/TowerInstance';
 const {ccclass, property} = cc._decorator;
 
 export class StrategyAttribute {
@@ -217,6 +219,11 @@ export default class Strategy extends cc.Component {
                 if (self.timer.state() != 'stop') {
                     self.timer.changeMultiple(self.multiple);
                 }
+                break;
+            case 'debug':
+                cc.log(EnemyInstance._instance.getComponent(EnemyInstance));
+                cc.log(TowerInstance._instance.getComponent(TowerInstance));
+                cc.log(AmmoInstance._instance.getComponent(AmmoInstance));
                 break;
             default: throw new Error("\"onClick\"错误:" + self.timer.state());
         }

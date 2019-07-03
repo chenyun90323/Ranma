@@ -8,15 +8,16 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Bullet extends Ammunition {
 
+    _target: cc.Vec2 = null;
     _damage: boolean = false;
 
-    init(ammoAttribute: AmmoAttribute, origin: cc.Vec2, target: cc.Node, parent: AmmoInstance) {
+    init (ammoAttribute: AmmoAttribute, origin: cc.Vec2, target: cc.Node, parent: AmmoInstance) {
         let self = this;
         super.init(ammoAttribute, origin, target, parent);
         //cc.log(target);
         let B: cc.Vec2 = target.getPosition(cc.v2());
         let AB: cc.Vec2 = B.sub(origin);
-        self.target = AB.normalize();
+        self._target = AB.normalize();
         self.node.setPosition(origin);
         this.node.angle = Units.vectorsToDegress(AB);
     }
@@ -25,7 +26,7 @@ export default class Bullet extends Ammunition {
         let self = this;
 
         if (!self.hit) {
-            let AB: cc.Vec2 = self.node.getPosition(cc.v2()).add(self.target.mul(dt * self.speed * Strategy._instance.multiple));
+            let AB: cc.Vec2 = self.node.getPosition(cc.v2()).add(self._target.mul(dt * self.speed * Strategy._instance.multiple));
             //cc.log(AB);
             self.node.setPosition(AB);
         }
